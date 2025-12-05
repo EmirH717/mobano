@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Cotización | Mobano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #f3f4f6;
+        }
+        .header-bg {
+            background-color: #FF0000;
+        }
+        .form-card {
+            background-color: #262626;
+        }
+        .input-style {
+            background-color: #333333;
+            border: 1px solid #4a4a4a;
+            color: #f3f4f6;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input-style:focus {
+            border-color: #FF0000;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5);
+        }
+        .btn-submit {
+            background-color: #FF0000;
+            color: white;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-submit:hover {
+            background-color: #CC0000;
+        }
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="header-bg shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-white">Mobano</h1>
+            <nav>
+                <a href="/" class="text-white hover:text-gray-200 transition duration-150">Volver al Catálogo</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-2xl form-card p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl">
+            <h2 class="text-3xl font-bold text-center mb-6 text-red-500">Solicitar Cotización</h2>
+            <p class="text-gray-400 text-center mb-8">Dinos qué refacción buscas o qué servicio necesitas. Nos pondremos en contacto contigo lo antes posible.</p>
+
+            <!-- Message Box (Hidden by default) -->
+            <div id="messageBox" class="hidden p-3 mb-6 rounded-lg font-medium text-center text-sm" role="alert">
+                <!-- Message content will be inserted here by JavaScript -->
+            </div>
+
+            <form id="quotationForm" class="space-y-6">
+                <!-- Datos Personales -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="client_name" class="block text-sm font-medium text-gray-300 mb-1">Nombre(s) <span class="text-red-500">*</span></label>
+                        <!-- CORRECCIÓN: Se agregó name="client_name" -->
+                        <input type="text" id="client_name" name="client_name" required class="input-style w-full px-4 py-2 rounded-lg" placeholder="Juan">
+                    </div>
+                    <div>
+                        <label for="client_last_name" class="block text-sm font-medium text-gray-300 mb-1">Apellido(s)</label>
+                        <!-- CORRECCIÓN: Se agregó name="client_last_name" -->
+                        <input type="text" id="client_last_name" name="client_last_name" class="input-style w-full px-4 py-2 rounded-lg" placeholder="Pérez">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="client_email" class="block text-sm font-medium text-gray-300 mb-1">Correo Electrónico <span class="text-red-500">*</span></label>
+                        <!-- CORRECCIÓN: Se agregó name="client_email" -->
+                        <input type="email" id="client_email" name="client_email" required class="input-style w-full px-4 py-2 rounded-lg" placeholder="ejemplo@correo.com">
+                    </div>
+                    <div>
+                        <label for="client_phone" class="block text-sm font-medium text-gray-300 mb-1">Teléfono</label>
+                        <!-- CORRECCIÓN: Se agregó name="client_phone" -->
+                        <input type="tel" id="client_phone" name="client_phone" class="input-style w-full px-4 py-2 rounded-lg" placeholder="55 1234 5678">
+                    </div>
+                </div>
+
+                <!-- Detalles de Fecha (Opcionales) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-700">
+                    <div class="col-span-2">
+                        <p class="text-sm font-semibold text-gray-400 mb-2">¿Cuándo te gustaría ser contactado? (Opcional)</p>
+                    </div>
+                    <div>
+                        <label for="required_date" class="block text-sm font-medium text-gray-300 mb-1">Fecha Preferida</label>
+                        <!-- CORRECCIÓN: Se agregó name="required_date" -->
+                        <input type="date" id="required_date" name="required_date" class="input-style w-full px-4 py-2 rounded-lg">
+                    </div>
+                    <div>
+                        <label for="required_time" class="block text-sm font-medium text-gray-300 mb-1">Hora Preferida</label>
+                        <!-- CORRECCIÓN: Se agregó name="required_time" -->
+                        <input type="time" id="required_time" name="required_time" class="input-style w-full px-4 py-2 rounded-lg">
+                    </div>
+                </div>
+
+                <!-- Detalles de la Cotización -->
+                <div class="pt-4 border-t border-gray-700">
+                    <label for="quotation_details" class="block text-sm font-medium text-gray-300 mb-1">Detalles de la Refacción o Servicio <span class="text-red-500">*</span></label>
+                    <!-- CORRECCIÓN: Se agregó name="quotation_details" -->
+                    <textarea id="quotation_details" name="quotation_details" rows="4" required class="input-style w-full px-4 py-2 rounded-lg" placeholder="Especifica marca, modelo, año, y cualquier detalle adicional sobre lo que necesitas (ej: 'Bomba de freno para Honda Civic 2018')."></textarea>
+                </div>
+
+                <!-- Botón de Envío -->
+                <div>
+                    <button type="submit" id="submitButton" class="btn-submit w-full py-3 rounded-lg text-lg font-semibold shadow-md hover:shadow-xl">
+                        Enviar Solicitud de Cotización
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Simple -->
+    <footer class="text-center py-4 border-t border-gray-700">
+        <p class="text-gray-400 text-sm">© 2024 Mobano. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('quotationForm');
+            const messageBox = document.getElementById('messageBox');
+            const submitButton = document.getElementById('submitButton');
+            const originalButtonText = submitButton.textContent;
+
+            // Función de envío del formulario
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Preparación para el envío
+                submitButton.textContent = 'Enviando...';
+                submitButton.disabled = true;
+
+                // Crear FormData a partir del formulario
+                const formData = new FormData(form);
+
+                try {
+                    // Llamada al endpoint de Flask
+                    const response = await fetch('/submit_quotation', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+                    
+                    // Configurar mensaje
+                    messageBox.textContent = result.message;
+                    messageBox.classList.remove('hidden');
+                    
+                    if (result.success) {
+                        // Estilo de éxito
+                        messageBox.classList.remove('bg-red-900', 'text-red-300');
+                        messageBox.classList.add('bg-green-900', 'text-green-300');
+                        form.reset(); // Limpiar el formulario en caso de éxito
+                    } else {
+                        // Estilo de error
+                        messageBox.classList.remove('bg-green-900', 'text-green-300');
+                        messageBox.classList.add('bg-red-900', 'text-red-300');
+                    }
+
+                } catch (error) {
+                    // Manejo de errores de red o servidor
+                    messageBox.textContent = 'Hubo un error de conexión con el servidor. Inténtalo de nuevo.';
+                    messageBox.classList.remove('bg-green-900', 'text-green-300');
+                    messageBox.classList.add('bg-red-900', 'text-red-300');
+                    messageBox.classList.remove('hidden');
+                } finally {
+                    // Restaurar botón
+                    submitButton.textContent = originalButtonText;
+                    submitButton.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
